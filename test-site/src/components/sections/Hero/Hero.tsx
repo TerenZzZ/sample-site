@@ -46,11 +46,10 @@ export function Hero() {
         </span>
 
                 <h1 className={styles.title}>
-                    <span className={styles.titleLine}>Forma</span>
+                    <span className={styles.titleLine}>Bloynkay</span>
                     <span className={styles.titleLine}>
-            <em className={styles.titleAccent}>Nuova</em>
+            <em className={styles.titleAccent}>Drop - 01</em>
           </span>
-                    <span className={styles.titleLine}>Materia</span>
                 </h1>
 
                 <p className={styles.lead}>
