@@ -1,4 +1,3 @@
-import { Navbar } from "../../layout/Navbar";
 import { Button } from "../../ui/Button";
 import { Marquee } from "../../ui/Marquee";
 import { ScrollIndicator } from "../../ui/ScrollIndicator";
@@ -17,7 +16,7 @@ const MARQUEE_ITEMS = [
 
 export function Hero() {
     return (
-        <section className={styles.hero} id="top">
+        <section className={styles.hero} id="top" data-nav-theme="light">
             <div className={styles.media} aria-hidden="true">
                 <video
                     className={styles.video}
@@ -32,23 +31,17 @@ export function Hero() {
                 <div className={styles.grain} />
             </div>
 
-            <Navbar />
-
             <div className={styles.frame}>
                 <span className={styles.frameTag}>N° 0001 / Bloynkay Atelier</span>
                 <span className={styles.frameTag}>Milano · 2026</span>
             </div>
 
             <div className={styles.content}>
-        <span className={styles.eyebrow}>
-          <span className={styles.eyebrowDot} />
-          Drop 01 — In arrivo Maggio 2026
-        </span>
 
                 <h1 className={styles.title}>
                     <span className={styles.titleLine}>Bloynkay</span>
                     <span className={styles.titleLine}>
-            <em className={styles.titleAccent}>Drop - 01</em>
+            <em className={styles.titleAccent}>Drop-01</em>
           </span>
                 </h1>
 

@@ -1,22 +1,71 @@
+import { useEffect, useState } from "react";
+import { IconButton } from "../../ui/IconButton";
 import styles from "./Navbar.module.css";
 
+type Theme = "light" | "dark";
+
 const NAV_LINKS = [
-    { label: "Drop 01", href: "#drop-01" },
-    { label: "Lookbook", href: "#lookbook" },
-    { label: "Brand", href: "#brand" },
-    { label: "Contatti", href: "#contact" },
+    { label: "Home", href: "#top" },
+    { label: "Drops", href: "#drops" },
 ];
 
-export function Navbar() {
-    return (
-        <header className={styles.navbar}>
-            <div className={styles.inner}>
-                <a href="#top" className={styles.logo} aria-label="Bloynkay — home">
-                    <span className={styles.logoMark}>BLOYNKAY</span>
-                    <span className={styles.logoBadge}>®</span>
-                </a>
+function useNavbarBehavior() {
+    const [theme, setTheme] = useState<Theme>("light");
+    const [scrolled, setScrolled] = useState(false);
 
-                <nav aria-label="Primary" className={styles.nav}>
+    useEffect(() => {
+        const onScroll = () => setScrolled(window.scrollY > 80);
+        onScroll();
+        window.addEventListener("scroll", onScroll, { passive: true });
+        return () => window.removeEventListener("scroll", onScroll);
+    }, []);
+
+    useEffect(() => {
+        const sections =
+            document.querySelectorAll<HTMLElement>("[data-nav-theme]");
+        if (sections.length === 0) return;
+
+        const obs = new IntersectionObserver(
+            (entries) => {
+                const visible = entries
+                    .filter((e) => e.isIntersecting)
+                    .sort(
+                        (a, b) =>
+                            Math.abs(a.boundingClientRect.top) -
+                            Math.abs(b.boundingClientRect.top)
+                    )[0];
+
+                if (visible) {
+                    const t = visible.target.getAttribute("data-nav-theme");
+                    if (t === "light" || t === "dark") setTheme(t);
+                }
+            },
+            { rootMargin: "-72px 0px -70% 0px", threshold: [0, 0.15, 0.5] }
+        );
+
+        sections.forEach((s) => obs.observe(s));
+        return () => obs.disconnect();
+    }, []);
+
+    return { theme, scrolled };
+}
+
+export function Navbar() {
+    const { theme, scrolled } = useNavbarBehavior();
+    const themeClass = theme === "dark" ? styles.dark : styles.light;
+
+    return (
+        <header
+            className={[
+                styles.navbar,
+                themeClass,
+                scrolled ? styles.scrolled : "",
+            ]
+                .filter(Boolean)
+                .join(" ")}
+        >
+            <div className={styles.inner}>
+                <nav aria-label="Primary" className={styles.left}>
                     <ul className={styles.list}>
                         {NAV_LINKS.map((link) => (
                             <li key={link.href}>
@@ -28,11 +77,47 @@ export function Navbar() {
                     </ul>
                 </nav>
 
-                <div className={styles.meta}>
-                    <span className={styles.metaItem}>IT / EN</span>
-                    <a className={styles.metaCta} href="#newsletter">
-                        Iscriviti
-                    </a>
+                <a href="#top" className={styles.logo} aria-label="Bloynkay — home">
+                    BLOYNKAY
+                </a>
+
+                <div className={styles.right}>
+                    <IconButton
+                        label="Carrello"
+                        className={styles.iconBtn}
+                        data-action="cart"
+                    >
+                        <svg
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="1.6"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                        >
+                            <path d="M3 5h3l2 12h11l2-9H7" />
+                            <circle cx="9" cy="20" r="1.6" />
+                            <circle cx="18" cy="20" r="1.6" />
+                        </svg>
+                    </IconButton>
+
+                    <IconButton
+                        label="Account"
+                        className={styles.iconBtn}
+                        data-action="account"
+                    >
+                        <svg
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="1.6"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                        >
+                            <circle cx="12" cy="8" r="4" />
+                            <path d="M4 21c0-4 4-7 8-7s8 3 8 7" />
+                        </svg>
+                    </IconButton>
                 </div>
             </div>
         </header>

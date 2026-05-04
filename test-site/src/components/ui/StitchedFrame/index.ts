@@ -1,0 +1,1 @@
+export { StitchedFrame } from "./StitchedFrame";

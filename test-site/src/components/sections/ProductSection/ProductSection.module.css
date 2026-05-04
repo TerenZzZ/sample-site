@@ -1,0 +1,207 @@
+.section {
+    position: relative;
+    padding: clamp(80px, 12vh, 140px) var(--container-px);
+    background: var(--section-bg);
+    color: var(--section-fg);
+    overflow: hidden;
+}
+
+.nero {
+    --section-bg: var(--cw-nero-bg);
+    --section-fg: var(--cw-nero-fg);
+    --section-accent: var(--cw-nero-accent);
+    --section-line: var(--cw-nero-line);
+}
+
+.celeste {
+    --section-bg: var(--cw-celeste-bg);
+    --section-fg: var(--cw-celeste-fg);
+    --section-accent: var(--cw-celeste-accent);
+    --section-line: var(--cw-celeste-line);
+}
+
+.panna {
+    --section-bg: var(--cw-panna-bg);
+    --section-fg: var(--cw-panna-fg);
+    --section-accent: var(--cw-panna-accent);
+    --section-line: var(--cw-panna-line);
+}
+
+.frameTags {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: var(--space-7);
+}
+
+.frameTag {
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    opacity: 0.55;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    gap: clamp(40px, 6vw, 100px);
+    align-items: center;
+}
+
+.reverse .grid {
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+}
+
+.reverse .media {
+    order: 2;
+}
+
+.reverse .info {
+    order: 1;
+}
+
+.media {
+    width: 100%;
+    max-width: 480px;
+    aspect-ratio: 1080 / 1920;
+    justify-self: center;
+}
+
+.mediaEl {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.info {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    max-width: 56ch;
+}
+
+.eyebrow {
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    opacity: 0.6;
+}
+
+.title {
+    font-size: clamp(2rem, 1.5rem + 3.5vw, 4.2rem);
+    line-height: 0.95;
+    margin: 0;
+    color: var(--section-fg);
+}
+
+.lead {
+    font-size: clamp(0.95rem, 0.9rem + 0.3vw, 1.1rem);
+    line-height: 1.6;
+    opacity: 0.82;
+    font-weight: 300;
+}
+
+.details {
+    list-style: none;
+    padding: 0;
+    margin: var(--space-2) 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+}
+
+.detail {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    font-size: 0.95rem;
+    opacity: 0.92;
+}
+
+.dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-5);
+    margin-top: var(--space-4);
+    padding-top: var(--space-5);
+    border-top: 1px solid var(--section-line);
+}
+
+.price {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 1.6rem + 1.6vw, 2.8rem);
+    letter-spacing: 0.02em;
+}
+
+.cta {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: 14px 24px;
+    font-family: var(--font-sans);
+    font-size: var(--fs-cta);
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    border-radius: var(--radius-pill);
+    background: var(--section-fg);
+    color: var(--section-bg);
+    cursor: pointer;
+    transition:
+            transform var(--dur-fast) var(--ease-out),
+            background var(--dur-base) var(--ease-out),
+            color var(--dur-base) var(--ease-out);
+}
+
+.cta:hover {
+    transform: translateY(-1px);
+    background: var(--section-accent);
+}
+
+.arrow {
+    display: inline-block;
+    transition: transform var(--dur-base) var(--ease-out);
+}
+
+.cta:hover .arrow {
+    transform: translateX(4px);
+}
+
+@media (max-width: 880px) {
+    .grid,
+    .reverse .grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-7);
+    }
+    .reverse .media,
+    .reverse .info {
+        order: initial;
+    }
+    .media {
+        max-width: 360px;
+    }
+    .frameTags {
+        margin-bottom: var(--space-5);
+    }
+}
+
+@media (max-width: 540px) {
+    .frameTag:last-child {
+        display: none;
+    }
+    .actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+}

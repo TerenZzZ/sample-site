@@ -9,7 +9,27 @@
     --color-accent: #a8c5d6;       /* celeste */
     --color-graphite: #4a4a4a;     /* colletto grigio */
 
-    /* Hero fine-tune: where the vertical video is anchored inside 16:9 */
+    /* Colorways — Drop 01 (toni attenuati, non saturi) */
+    --cw-nero-bg: #111113;
+    --cw-nero-fg: #f5f1e8;
+    --cw-nero-accent: #a8c5d6;
+    --cw-nero-line: rgba(245, 241, 232, 0.16);
+
+    --cw-celeste-bg: #2a3a48;
+    --cw-celeste-fg: #f1f5f8;
+    --cw-celeste-accent: #c8d4dc;
+    --cw-celeste-line: rgba(241, 245, 248, 0.18);
+
+    --cw-panna-bg: #ebe3d1;
+    --cw-panna-fg: #1a1a1a;
+    --cw-panna-accent: #b03a2e;
+    --cw-panna-line: rgba(26, 26, 26, 0.16);
+
+    /* Stitch */
+    --stitch-thickness-separator: 48px;
+    --stitch-thickness-frame: 14px;
+
+    /* Hero fine-tune */
     --hero-video-x: 50%;
     --hero-video-y: 38%;
 
