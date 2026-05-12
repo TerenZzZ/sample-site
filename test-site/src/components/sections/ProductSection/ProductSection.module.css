@@ -9,19 +9,30 @@
     flex-direction: column;
 }
 
-/* === Colorway palettes — derivate dalle foto === */
+/* === Colorway palettes — allineate ai fondali dei video === */
 .nero {
-    --cw-fg: #f3ede0;
-    --cw-fg-soft: rgba(243, 237, 224, 0.62);
-    --cw-fg-mute: rgba(243, 237, 224, 0.32);
-    --cw-line: rgba(243, 237, 224, 0.14);
+    --cw-fg: #1a1a1a;
+    --cw-fg-soft: rgba(26, 26, 26, 0.66);
+    --cw-fg-mute: rgba(26, 26, 26, 0.36);
+    --cw-line: rgba(26, 26, 26, 0.14);
     --cw-accent: #7da4bf;
-    --cw-bg-base: #0a0b0e;
-    --cw-bg-deep: #1c2230;
-    --cw-bg-glow: rgba(125, 164, 191, 0.22);
+    --cw-bg-base: #efe6cf;
+    --cw-bg-deep: #c9bda0;
+    --cw-bg-glow: rgba(255, 248, 230, 0.7);
 }
 
 .panna {
+    --cw-fg: #f3ede0;
+    --cw-fg-soft: rgba(243, 237, 224, 0.66);
+    --cw-fg-mute: rgba(243, 237, 224, 0.36);
+    --cw-line: rgba(243, 237, 224, 0.14);
+    --cw-accent: #d9c9a7;
+    --cw-bg-base: #2a2a2c;
+    --cw-bg-deep: #1a1a1c;
+    --cw-bg-glow: rgba(243, 237, 224, 0.12);
+}
+
+.celeste {
     --cw-fg: #1a1a1a;
     --cw-fg-soft: rgba(26, 26, 26, 0.66);
     --cw-fg-mute: rgba(26, 26, 26, 0.36);
@@ -29,18 +40,7 @@
     --cw-accent: #9a3a2a;
     --cw-bg-base: #efe6cf;
     --cw-bg-deep: #c9bda0;
-    --cw-bg-glow: rgba(255, 248, 230, 0.7);
-}
-
-.celeste {
-    --cw-fg: #f1f5f8;
-    --cw-fg-soft: rgba(241, 245, 248, 0.66);
-    --cw-fg-mute: rgba(241, 245, 248, 0.34);
-    --cw-line: rgba(241, 245, 248, 0.16);
-    --cw-accent: #c5d2dc;
-    --cw-bg-base: #2c3e4f;
-    --cw-bg-deep: #4a6075;
-    --cw-bg-glow: rgba(197, 210, 220, 0.18);
+    --cw-bg-glow: rgba(125, 164, 191, 0.28);
 }
 
 /* === Backdrop a layer === */
@@ -84,13 +84,13 @@
     user-select: none;
 }
 
-.nero .watermark,
-.celeste .watermark {
+.panna .watermark {
     filter: brightness(0) invert(1);
     opacity: 0.05;
 }
 
-.panna .watermark {
+.nero .watermark,
+.celeste .watermark {
     filter: brightness(0);
     opacity: 0.07;
 }

@@ -23,9 +23,9 @@ const colorwayClass: Record<Colorway, string> = {
 };
 
 const navTheme: Record<Colorway, "light" | "dark"> = {
-    nero: "light",
-    celeste: "light",
-    panna: "dark",
+    nero: "dark",
+    celeste: "dark",
+    panna: "light",
 };
 
 export function ProductSection({
@@ -68,12 +68,15 @@ export function ProductSection({
                         {index}
                     </span>
 
-                    <figure className={styles.media}>
-                        <img
+                    <figure className={styles.media} aria-label={mediaAlt}>
+                        <video
                             src={mediaSrc}
-                            alt={mediaAlt}
-                            loading="lazy"
                             className={styles.mediaEl}
+                            autoPlay
+                            loop
+                            muted
+                            playsInline
+                            preload="metadata"
                         />
                     </figure>
 
