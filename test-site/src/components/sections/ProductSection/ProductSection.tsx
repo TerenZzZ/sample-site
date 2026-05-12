@@ -1,7 +1,15 @@
+import { Reveal } from "../../ui/Reveal";
+import { useLazyVideoPlay } from "../../../hooks/useLazyVideoPlay";
 import logoBloynkay from "../../../assets/images/brand/bloynkay-logo.png";
 import styles from "./ProductSection.module.css";
 
 export type Colorway = "nero" | "celeste" | "panna";
+
+export type Pillar = {
+    index: string;
+    title: string;
+    body: string;
+};
 
 export type ProductSectionProps = {
     colorway: Colorway;
@@ -10,6 +18,7 @@ export type ProductSectionProps = {
     total: number;
     name: string;
     description: string;
+    pillars: Pillar[];
     details: string[];
     price: string;
     mediaSrc: string;
@@ -35,11 +44,14 @@ export function ProductSection({
                                    total,
                                    name,
                                    description,
+                                   pillars,
                                    details,
                                    price,
                                    mediaSrc,
                                    mediaAlt,
                                }: ProductSectionProps) {
+    const videoRef = useLazyVideoPlay();
+
     return (
         <section
             id={`drop-01-${colorway}`}
@@ -54,35 +66,63 @@ export function ProductSection({
                 className={styles.watermark}
             />
 
-            <div className={styles.content}>
-                <header className={styles.meta}>
-                    <span className={styles.kicker}>Drop 01 / Cardigan</span>
-                    <span className={styles.counter}>
-                        {String(position).padStart(2, "0")} —{" "}
-                        {String(total).padStart(2, "0")}
-                    </span>
-                </header>
+            <div className={styles.grid}>
+                <aside className={styles.mediaCol} aria-label={mediaAlt}>
+                    <div className={styles.mediaInner}>
+                        <header className={styles.mediaMeta}>
+                            <span className={styles.kicker}>Drop 01 / Cardigan</span>
+                            <span className={styles.counter}>
+                                {String(position).padStart(2, "0")} —{" "}
+                                {String(total).padStart(2, "0")}
+                            </span>
+                        </header>
 
-                <div className={styles.stage}>
-                    <span className={styles.indexNum} aria-hidden="true">
-                        {index}
-                    </span>
+                        <figure className={styles.media}>
+                            <video
+                                ref={videoRef}
+                                src={mediaSrc}
+                                className={styles.mediaEl}
+                                loop
+                                muted
+                                playsInline
+                                preload="metadata"
+                            />
+                            <span className={styles.indexBadge} aria-hidden="true">
+                                {index}
+                            </span>
+                        </figure>
 
-                    <figure className={styles.media} aria-label={mediaAlt}>
-                        <video
-                            src={mediaSrc}
-                            className={styles.mediaEl}
-                            autoPlay
-                            loop
-                            muted
-                            playsInline
-                            preload="metadata"
-                        />
-                    </figure>
+                        <span className={styles.mediaName}>{name}</span>
+                    </div>
+                </aside>
 
-                    <div className={styles.info}>
+                <div className={styles.infoCol}>
+                    <Reveal as="article" className={`${styles.step} ${styles.stepIntro}`}>
+                        <span className={styles.stepLabel}>
+                            <span className={styles.stepRule} aria-hidden="true" />
+                            Capo {String(position).padStart(2, "0")}
+                        </span>
                         <h2 className={styles.title}>{name}</h2>
                         <p className={styles.lead}>{description}</p>
+                    </Reveal>
+
+                    {pillars.map((p) => (
+                        <Reveal
+                            key={p.index}
+                            as="article"
+                            className={`${styles.step} ${styles.stepPillar}`}
+                        >
+                            <span className={styles.pillarIndex}>{p.index}</span>
+                            <h3 className={styles.pillarTitle}>{p.title}</h3>
+                            <p className={styles.pillarBody}>{p.body}</p>
+                        </Reveal>
+                    ))}
+
+                    <Reveal as="article" className={`${styles.step} ${styles.stepBuy}`}>
+                        <span className={styles.stepLabel}>
+                            <span className={styles.stepRule} aria-hidden="true" />
+                            Specifiche
+                        </span>
 
                         <ul className={styles.details}>
                             {details.map((d, i) => (
@@ -95,21 +135,24 @@ export function ProductSection({
                             ))}
                         </ul>
 
-                        <div className={styles.actions}>
-                            <span className={styles.price}>{price}</span>
+                        <div className={styles.buyRow}>
+                            <div className={styles.priceBlock}>
+                                <span className={styles.priceLabel}>Prezzo di lancio</span>
+                                <span className={styles.price}>{price}</span>
+                            </div>
                             <div className={styles.buttons}>
                                 <button type="button" className={styles.ctaGhost}>
                                     Dettagli
                                 </button>
                                 <button type="button" className={styles.cta}>
-                                    <span>Aggiungi</span>
+                                    <span>Aggiungi alla lista</span>
                                     <span aria-hidden="true" className={styles.arrow}>
                                         →
                                     </span>
                                 </button>
                             </div>
                         </div>
-                    </div>
+                    </Reveal>
                 </div>
             </div>
         </section>

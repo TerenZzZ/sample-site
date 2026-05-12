@@ -1,7 +1,9 @@
 import { Button } from "../../ui/Button";
 import { Marquee } from "../../ui/Marquee";
 import { ScrollIndicator } from "../../ui/ScrollIndicator";
+import { useLazyVideoPlay } from "../../../hooks/useLazyVideoPlay";
 import heroVideo from "../../../assets/media/hero-drop01.mp4";
+import logoBloynkay from "../../../assets/images/brand/bloynkay-logo.png";
 import styles from "./Hero.module.css";
 
 const MARQUEE_ITEMS = [
@@ -10,18 +12,26 @@ const MARQUEE_ITEMS = [
     "Panna",
     "Celeste · Colletto Grigio",
     "Nero",
-    "Coming May 2026",
+    "Coming June 2026",
     "Limited Release",
 ];
 
+function scrollToId(id: string) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
 export function Hero() {
+    const videoRef = useLazyVideoPlay();
+
     return (
         <section className={styles.hero} id="top" data-nav-theme="light">
             <div className={styles.media} aria-hidden="true">
                 <video
+                    ref={videoRef}
                     className={styles.video}
                     src={heroVideo}
-                    autoPlay
                     loop
                     muted
                     playsInline
@@ -36,55 +46,48 @@ export function Hero() {
                 <span className={styles.frameTag}>Milano · 2026</span>
             </div>
 
-            <div className={styles.content}>
+            <div className={styles.lower}>
+                <div className={styles.content}>
+                    <span className={styles.kicker}>
+                        <span className={styles.kickerDot} aria-hidden="true" />
+                        Drop 01 — Cardigan Series
+                    </span>
 
-                <h1 className={styles.title}>
-                    <span className={styles.titleLine}>Bloynkay</span>
-                    <span className={styles.titleLine}>
-            <em className={styles.titleAccent}>Drop-01</em>
-          </span>
-                </h1>
+                    <h1 className={styles.title}>
+                        <span className={styles.titleLead}>Una nuova forma.</span>
+                        <em className={styles.titleAccent}>Drop-01</em>
+                    </h1>
 
-                <p className={styles.lead}>
-                    Tre colorazioni, un solo gesto. Il cardigan che apre Drop 01 ridisegna
-                    il dettaglio: colletto a contrasto, taglio asciutto, mano densa.
-                </p>
+                    <p className={styles.lead}>
+                        Tre colorazioni, un solo gesto. Il cardigan che apre Drop 01
+                        ridisegna il dettaglio: colletto a contrasto, taglio asciutto,
+                        mano densa.
+                    </p>
 
-                <div className={styles.actions}>
-                    <Button>Scopri Drop 01</Button>
-                    <Button variant="ghost">Guarda il film</Button>
+                    <div className={styles.actions}>
+                        <Button onClick={() => scrollToId("drops")}>
+                            Scopri Drop 01
+                        </Button>
+                        <Button
+                            variant="ghost"
+                            onClick={() => scrollToId("waitlist")}
+                        >
+                            Entra in lista
+                        </Button>
+                    </div>
                 </div>
-            </div>
 
-            <aside className={styles.colors} aria-label="Colorways disponibili">
-                <span className={styles.colorsLabel}>Colorways</span>
-                <ul className={styles.colorList}>
-                    <li className={styles.colorItem}>
-            <span
-                className={styles.swatch}
-                style={{ background: "#f1ead6" }}
-            />
-                        <span className={styles.colorName}>Panna</span>
-                    </li>
-                    <li className={styles.colorItem}>
-            <span
-                className={styles.swatch}
-                style={{
-                    background:
-                        "linear-gradient(135deg, #a8c5d6 0 60%, #4a4a4a 60% 100%)",
-                }}
-            />
-                        <span className={styles.colorName}>Celeste / Grigio</span>
-                    </li>
-                    <li className={styles.colorItem}>
-            <span
-                className={styles.swatch}
-                style={{ background: "#0e0e0e" }}
-            />
-                        <span className={styles.colorName}>Nero</span>
-                    </li>
-                </ul>
-            </aside>
+                <aside className={styles.watermark} aria-label="Bloynkay Atelier">
+                    <img
+                        src={logoBloynkay}
+                        alt="Bloynkay"
+                        className={styles.watermarkLogo}
+                    />
+                    <span className={styles.watermarkCaption}>
+                        Atelier · Milano · MMXXVI
+                    </span>
+                </aside>
+            </div>
 
             <div className={styles.scroll}>
                 <ScrollIndicator label="Scorri" />

@@ -89,12 +89,44 @@
     width: 100%;
 }
 
+.linkActive {
+    opacity: 1;
+}
+
+.linkActive::after {
+    width: 100%;
+}
+
+/* === Logo (image) === */
 .logo {
     justify-self: center;
-    font-family: var(--font-display);
-    font-size: 1.5rem;
-    letter-spacing: 0.06em;
-    color: currentColor;
+    display: inline-flex;
+    align-items: center;
+    line-height: 0;
+}
+
+.logoImg {
+    display: block;
+    height: 38px;
+    width: auto;
+    user-select: none;
+    -webkit-user-drag: none;
+    transition:
+            filter var(--dur-base) var(--ease-out),
+            opacity var(--dur-base) var(--ease-out);
+}
+
+/* Logo is black artwork on transparent: invert on light theme (dark sections) */
+.light .logoImg {
+    filter: invert(1);
+}
+
+.dark .logoImg {
+    filter: none;
+}
+
+.logo:hover .logoImg {
+    opacity: 0.82;
 }
 
 .right {
@@ -113,11 +145,17 @@
     opacity: 1;
 }
 
+@media (max-width: 880px) {
+    .logoImg {
+        height: 32px;
+    }
+}
+
 @media (max-width: 540px) {
     .list {
         gap: var(--space-4);
     }
-    .logo {
-        font-size: 1.2rem;
+    .logoImg {
+        height: 28px;
     }
 }

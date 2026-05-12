@@ -3,6 +3,8 @@
 
 html {
     background-color: var(--color-bg);
+    scroll-behavior: smooth;
+    scroll-padding-top: var(--nav-height);
 }
 
 body {

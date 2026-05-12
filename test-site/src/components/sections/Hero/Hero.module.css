@@ -19,11 +19,6 @@
 .video {
     width: 100%;
     height: 100%;
-    /*
-     * Source video is 9:16. We render in a 16:9 hero by COVER-fitting it,
-     * which crops the top/bottom of the vertical frame symmetrically.
-     * Use --hero-video-y in tokens.css to bias the focal point vertically.
-     */
     object-fit: cover;
     object-position: var(--hero-video-x) var(--hero-video-y);
     transform: scale(1.04);
@@ -38,12 +33,17 @@
                     180deg,
                     rgba(10, 10, 10, 0.55) 0%,
                     rgba(10, 10, 10, 0) 22%,
-                    rgba(10, 10, 10, 0) 60%,
-                    rgba(10, 10, 10, 0.85) 100%
+                    rgba(10, 10, 10, 0) 58%,
+                    rgba(10, 10, 10, 0.9) 100%
             ),
             radial-gradient(
-                    120% 80% at 20% 80%,
-                    rgba(10, 10, 10, 0.6) 0%,
+                    120% 80% at 15% 85%,
+                    rgba(10, 10, 10, 0.55) 0%,
+                    rgba(10, 10, 10, 0) 60%
+            ),
+            radial-gradient(
+                    80% 60% at 88% 92%,
+                    rgba(10, 10, 10, 0.55) 0%,
                     rgba(10, 10, 10, 0) 60%
             );
     pointer-events: none;
@@ -78,71 +78,97 @@
     color: var(--color-ink-mute);
 }
 
-/* ───────── Content ───────── */
-.content {
+/* ───────── Lower zone: editorial left + watermark right ───────── */
+.lower {
     position: absolute;
     left: var(--container-px);
     right: var(--container-px);
     bottom: clamp(120px, 18vh, 200px);
     z-index: 6;
-    max-width: min(880px, 70vw);
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: clamp(32px, 6vw, 96px);
+    pointer-events: none;
+}
+
+.content,
+.watermark {
+    pointer-events: auto;
+}
+
+/* === Left: editorial content === */
+.content {
+    flex: 1;
+    max-width: clamp(440px, 50vw, 620px);
     display: flex;
     flex-direction: column;
-    gap: var(--space-5);
+    gap: var(--space-4);
     animation: rise var(--dur-slow) var(--ease-out) both;
 }
 
-.eyebrow {
+.kicker {
     display: inline-flex;
     align-items: center;
     gap: var(--space-3);
     width: fit-content;
-    padding: 8px 14px 8px 10px;
-    border: 1px solid var(--color-line);
-    border-radius: var(--radius-pill);
     font-size: var(--fs-eyebrow);
     font-weight: 500;
-    letter-spacing: 0.24em;
+    letter-spacing: 0.32em;
     text-transform: uppercase;
     color: var(--color-ink-soft);
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
-    background: rgba(10, 10, 10, 0.25);
 }
 
-.eyebrowDot {
+.kickerDot {
+    display: inline-block;
     width: 8px;
     height: 8px;
     border-radius: 50%;
     background: var(--color-accent);
     box-shadow: 0 0 0 4px rgba(168, 197, 214, 0.18);
     animation: pulse 2s var(--ease-in-out) infinite;
+    flex-shrink: 0;
 }
 
+/* Title block: white opener + italic celeste accent (same style as Waitlist) */
 .title {
-    font-size: var(--fs-display);
+    margin: 0;
     display: flex;
     flex-direction: column;
-    gap: 2px;
-    margin-top: var(--space-2);
+    gap: var(--space-1);
+    line-height: 0.95;
 }
 
-.titleLine {
+.titleLead {
     display: block;
+    font-family: var(--font-display);
+    font-size: clamp(1.8rem, 1.4rem + 2vw, 3.1rem);
+    color: var(--color-ink);
+    line-height: 0.95;
+    letter-spacing: -0.005em;
+    text-transform: uppercase;
+    font-style: normal;
+    font-weight: 400;
 }
 
 .titleAccent {
+    display: inline-block;
+    font-family: var(--font-display);
     font-style: italic;
+    font-size: clamp(2.8rem, 2.2rem + 4vw, 5.6rem);
     color: var(--color-accent);
-    letter-spacing: -0.02em;
+    letter-spacing: -0.015em;
+    line-height: 0.92;
+    text-transform: uppercase;
 }
 
 .lead {
-    max-width: 52ch;
-    font-size: clamp(1rem, 0.95rem + 0.4vw, 1.18rem);
+    max-width: 46ch;
+    font-size: clamp(1rem, 0.95rem + 0.3vw, 1.12rem);
     line-height: 1.55;
     color: var(--color-ink-soft);
     font-weight: 300;
+    margin: 0;
 }
 
 .actions {
@@ -152,63 +178,36 @@
     margin-top: var(--space-3);
 }
 
-/* ───────── Colorways panel ───────── */
-.colors {
-    position: absolute;
-    right: var(--container-px);
-    bottom: clamp(120px, 18vh, 200px);
-    z-index: 6;
+/* === Right: watermark stamp (pushed below content baseline) === */
+.watermark {
     display: flex;
     flex-direction: column;
-    gap: var(--space-3);
-    padding: var(--space-4) var(--space-4);
-    border: 1px solid var(--color-line);
-    border-radius: 14px;
-    background: rgba(10, 10, 10, 0.35);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    min-width: 220px;
+    align-items: flex-end;
+    gap: var(--space-2);
+    max-width: clamp(110px, 12vw, 160px);
+    transform: translateY(clamp(32px, 6vh, 72px));
     animation: rise var(--dur-slow) var(--ease-out) both;
-    animation-delay: 120ms;
+    animation-delay: 200ms;
 }
 
-.colorsLabel {
-    font-size: 0.7rem;
+.watermarkLogo {
+    display: block;
+    width: 100%;
+    height: auto;
+    opacity: 0.78;
+    filter: invert(1) drop-shadow(0 4px 12px rgba(0, 0, 0, 0.35));
+    user-select: none;
+    -webkit-user-drag: none;
+}
+
+.watermarkCaption {
+    font-size: 0.62rem;
     font-weight: 500;
     letter-spacing: 0.32em;
     text-transform: uppercase;
     color: var(--color-ink-mute);
-}
-
-.colorList {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-2);
-}
-
-.colorItem {
-    display: flex;
-    align-items: center;
-    gap: var(--space-3);
-    padding: 6px 4px;
-}
-
-.swatch {
-    display: inline-block;
-    width: 22px;
-    height: 22px;
-    border-radius: 50%;
-    border: 1px solid var(--color-line);
-    flex-shrink: 0;
-}
-
-.colorName {
-    font-size: 0.82rem;
-    letter-spacing: 0.06em;
-    color: var(--color-ink-soft);
+    text-align: right;
+    line-height: 1.4;
 }
 
 /* ───────── Scroll indicator ───────── */
@@ -253,22 +252,34 @@
 
 /* ───────── Responsive ───────── */
 @media (max-width: 1100px) {
-    .colors {
-        bottom: 180px;
-        min-width: 200px;
+    .watermark {
+        max-width: clamp(100px, 14vw, 130px);
+        transform: translateY(clamp(24px, 5vh, 56px));
     }
 }
 
 @media (max-width: 880px) {
-    .content {
-        max-width: 100%;
-        bottom: 200px;
+    .lower {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--space-6);
+        bottom: 180px;
     }
 
-    .colors {
-        position: static;
-        margin: 0 var(--container-px);
-        margin-top: var(--space-5);
+    .watermark {
+        order: -1;
+        align-items: flex-start;
+        max-width: 96px;
+        opacity: 0.95;
+        transform: none;
+    }
+
+    .watermarkCaption {
+        text-align: left;
+    }
+
+    .content {
+        max-width: 100%;
     }
 
     .frame {
@@ -281,9 +292,9 @@
 }
 
 @media (max-width: 540px) {
-    .content {
-        bottom: 160px;
-        gap: var(--space-4);
+    .lower {
+        bottom: 150px;
+        gap: var(--space-5);
     }
 
     .frameTag:last-child {
@@ -292,5 +303,23 @@
 
     .lead {
         font-size: 1rem;
+    }
+
+    .titleLead {
+        font-size: clamp(1.6rem, 7vw, 2.2rem);
+    }
+
+    .titleAccent {
+        font-size: clamp(2.6rem, 12vw, 4rem);
+    }
+
+    .watermark {
+        max-width: 84px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .kickerDot {
+        animation: none;
     }
 }

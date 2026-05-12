@@ -1,2 +1,2 @@
 export { ProductSection } from "./ProductSection";
-export type { Colorway, ProductSectionProps } from "./ProductSection";
+export type { Colorway, Pillar, ProductSectionProps } from "./ProductSection";

@@ -1,17 +1,20 @@
-import { useEffect, useState } from "react";
+import { type MouseEvent, useEffect, useState } from "react";
 import { IconButton } from "../../ui/IconButton";
+import logoBloynkay from "../../../assets/images/brand/bloynkay-logo.png";
 import styles from "./Navbar.module.css";
 
 type Theme = "light" | "dark";
 
 const NAV_LINKS = [
-    { label: "Home", href: "#top" },
-    { label: "Drops", href: "#drops" },
+    { label: "Drop", href: "#drops", target: "drops" },
+    { label: "Manifesto", href: "#manifesto", target: "manifesto" },
+    { label: "Lista d'attesa", href: "#waitlist", target: "waitlist" },
 ];
 
 function useNavbarBehavior() {
     const [theme, setTheme] = useState<Theme>("light");
     const [scrolled, setScrolled] = useState(false);
+    const [activeId, setActiveId] = useState<string>("top");
 
     useEffect(() => {
         const onScroll = () => setScrolled(window.scrollY > 80);
@@ -38,6 +41,15 @@ function useNavbarBehavior() {
                 if (visible) {
                     const t = visible.target.getAttribute("data-nav-theme");
                     if (t === "light" || t === "dark") setTheme(t);
+
+                    const id = visible.target.id;
+                    if (id) {
+                        if (id.startsWith("drop-01")) {
+                            setActiveId("drops");
+                        } else {
+                            setActiveId(id);
+                        }
+                    }
                 }
             },
             { rootMargin: "-72px 0px -70% 0px", threshold: [0, 0.15, 0.5] }
@@ -47,12 +59,27 @@ function useNavbarBehavior() {
         return () => obs.disconnect();
     }, []);
 
-    return { theme, scrolled };
+    return { theme, scrolled, activeId };
 }
 
 export function Navbar() {
-    const { theme, scrolled } = useNavbarBehavior();
+    const { theme, scrolled, activeId } = useNavbarBehavior();
     const themeClass = theme === "dark" ? styles.dark : styles.light;
+
+    const onLinkClick =
+        (target: string) => (e: MouseEvent<HTMLAnchorElement>) => {
+            const el = document.getElementById(target);
+            if (!el) return;
+            e.preventDefault();
+            el.scrollIntoView({ behavior: "smooth", block: "start" });
+            history.replaceState(null, "", `#${target}`);
+        };
+
+    const onLogoClick = (e: MouseEvent<HTMLAnchorElement>) => {
+        e.preventDefault();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        history.replaceState(null, "", "#top");
+    };
 
     return (
         <header
@@ -67,18 +94,40 @@ export function Navbar() {
             <div className={styles.inner}>
                 <nav aria-label="Primary" className={styles.left}>
                     <ul className={styles.list}>
-                        {NAV_LINKS.map((link) => (
-                            <li key={link.href}>
-                                <a className={styles.link} href={link.href}>
-                                    {link.label}
-                                </a>
-                            </li>
-                        ))}
+                        {NAV_LINKS.map((link) => {
+                            const isActive = activeId === link.target;
+                            return (
+                                <li key={link.href}>
+                                    <a
+                                        className={[
+                                            styles.link,
+                                            isActive ? styles.linkActive : "",
+                                        ]
+                                            .filter(Boolean)
+                                            .join(" ")}
+                                        href={link.href}
+                                        onClick={onLinkClick(link.target)}
+                                        aria-current={isActive ? "true" : undefined}
+                                    >
+                                        {link.label}
+                                    </a>
+                                </li>
+                            );
+                        })}
                     </ul>
                 </nav>
 
-                <a href="#top" className={styles.logo} aria-label="Bloynkay — home">
-                    BLOYNKAY
+                <a
+                    href="#top"
+                    className={styles.logo}
+                    aria-label="Bloynkay — home"
+                    onClick={onLogoClick}
+                >
+                    <img
+                        src={logoBloynkay}
+                        alt="Bloynkay"
+                        className={styles.logoImg}
+                    />
                 </a>
 
                 <div className={styles.right}>

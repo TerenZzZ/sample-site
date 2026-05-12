@@ -1,12 +1,9 @@
 .section {
     position: relative;
-    min-height: 100vh;
-    padding: clamp(80px, 10vh, 120px) var(--container-px) clamp(64px, 8vh, 96px);
+    padding: clamp(64px, 8vh, 96px) var(--container-px);
     color: var(--cw-fg);
     overflow: hidden;
     isolation: isolate;
-    display: flex;
-    flex-direction: column;
 }
 
 /* === Colorway palettes — allineate ai fondali dei video === */
@@ -76,9 +73,9 @@
 .watermark {
     position: absolute;
     z-index: -1;
-    bottom: -8%;
-    right: -12%;
-    width: min(92vw, 1200px);
+    bottom: -6%;
+    right: -14%;
+    width: min(80vw, 1100px);
     height: auto;
     pointer-events: none;
     user-select: none;
@@ -92,24 +89,37 @@
 .nero .watermark,
 .celeste .watermark {
     filter: brightness(0);
-    opacity: 0.07;
+    opacity: 0.06;
 }
 
-/* === Contenuto === */
-.content {
+/* === Layout: sticky media + scrolling info === */
+.grid {
     position: relative;
     z-index: 1;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: clamp(40px, 6vh, 64px);
     max-width: 1480px;
-    width: 100%;
     margin: 0 auto;
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+    gap: clamp(48px, 6vw, 96px);
+    align-items: start;
 }
 
-/* === Meta header === */
-.meta {
+.mediaCol {
+    position: sticky;
+    top: calc(var(--nav-height) + clamp(20px, 4vh, 40px));
+    align-self: start;
+    height: calc(100svh - var(--nav-height) - clamp(40px, 8vh, 80px));
+    min-height: 520px;
+}
+
+.mediaInner {
+    height: 100%;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    gap: var(--space-4);
+}
+
+.mediaMeta {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -129,33 +139,11 @@
     font-variant-numeric: tabular-nums;
 }
 
-/* === Stage === */
-.stage {
-    flex: 1;
-    display: grid;
-    grid-template-columns: auto minmax(0, 1fr) minmax(0, 1.05fr);
-    align-items: center;
-    gap: clamp(32px, 5vw, 80px);
-}
-
-.indexNum {
-    font-family: var(--font-display);
-    font-size: clamp(8rem, 18vw, 18rem);
-    line-height: 0.8;
-    color: transparent;
-    -webkit-text-stroke: 1.5px var(--cw-fg);
-    letter-spacing: -0.02em;
-    user-select: none;
-    align-self: stretch;
-    display: flex;
-    align-items: flex-start;
-    padding-top: 0.05em;
-}
-
 .media {
+    position: relative;
     margin: 0;
     width: 100%;
-    aspect-ratio: 4 / 5;
+    height: 100%;
     overflow: hidden;
     border-radius: 2px;
     box-shadow:
@@ -169,23 +157,91 @@
     object-fit: cover;
     object-position: center;
     display: block;
-    transition: transform 900ms var(--ease-out);
+    transition: transform 1200ms var(--ease-out);
 }
 
 .media:hover .mediaEl {
     transform: scale(1.03);
 }
 
-.info {
+.indexBadge {
+    position: absolute;
+    top: clamp(16px, 3vh, 28px);
+    left: clamp(16px, 2vw, 24px);
+    font-family: var(--font-display);
+    font-size: clamp(3rem, 6vw, 5rem);
+    line-height: 0.8;
+    color: transparent;
+    -webkit-text-stroke: 1.5px var(--cw-fg);
+    letter-spacing: -0.02em;
+    user-select: none;
+    pointer-events: none;
+    mix-blend-mode: difference;
+    opacity: 0.92;
+}
+
+.mediaName {
+    font-family: var(--font-sans);
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--cw-fg-soft);
+}
+
+/* === Info column === */
+.infoCol {
     display: flex;
     flex-direction: column;
+    padding: clamp(40px, 8vh, 96px) 0;
+}
+
+.step {
+    min-height: 70vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: var(--space-4);
+    max-width: 48ch;
+    padding: var(--space-7) 0;
+}
+
+.step:first-child {
+    padding-top: 0;
+}
+
+.step:last-child {
+    padding-bottom: 0;
+    min-height: 80vh;
+}
+
+/* === Intro === */
+.stepIntro {
     gap: var(--space-5);
-    max-width: 44ch;
+}
+
+.stepLabel {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-3);
+    font-family: var(--font-sans);
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--cw-fg-mute);
+}
+
+.stepRule {
+    display: inline-block;
+    width: 40px;
+    height: 1px;
+    background: var(--cw-fg-soft);
 }
 
 .title {
     font-family: var(--font-display);
-    font-size: clamp(3rem, 4vw + 1rem, 5.5rem);
+    font-size: clamp(3rem, 4vw + 1rem, 5.6rem);
     line-height: 0.92;
     letter-spacing: -0.01em;
     margin: 0;
@@ -193,16 +249,56 @@
 }
 
 .lead {
-    font-size: clamp(0.95rem, 0.9rem + 0.25vw, 1.05rem);
+    font-size: clamp(1rem, 0.95rem + 0.3vw, 1.15rem);
+    line-height: 1.6;
+    color: var(--cw-fg-soft);
+    font-weight: 300;
+    margin: 0;
+}
+
+/* === Pillar steps === */
+.stepPillar {
+    border-top: 1px solid var(--cw-line);
+    padding-top: var(--space-7);
+}
+
+.pillarIndex {
+    font-family: var(--font-sans);
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.32em;
+    color: var(--cw-accent);
+}
+
+.pillarTitle {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 1.4rem + 1.6vw, 3rem);
+    line-height: 1;
+    margin: 0;
+    color: var(--cw-fg);
+    text-transform: none;
+    letter-spacing: -0.005em;
+}
+
+.pillarBody {
+    font-size: clamp(0.98rem, 0.94rem + 0.2vw, 1.08rem);
     line-height: 1.65;
     color: var(--cw-fg-soft);
     font-weight: 300;
     margin: 0;
 }
 
+/* === Buy step === */
+.stepBuy {
+    gap: var(--space-5);
+    border-top: 1px solid var(--cw-line);
+    padding-top: var(--space-7);
+}
+
 .details {
     list-style: none;
-    margin: var(--space-3) 0 0;
+    margin: 0;
+    padding: 0;
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: var(--space-3) var(--space-5);
@@ -215,7 +311,7 @@
     display: flex;
     align-items: baseline;
     gap: var(--space-3);
-    font-size: 0.88rem;
+    font-size: 0.9rem;
     line-height: 1.4;
 }
 
@@ -233,20 +329,34 @@
     color: var(--cw-fg);
 }
 
-.actions {
+.buyRow {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: var(--space-5);
     flex-wrap: wrap;
-    margin-top: var(--space-3);
+}
+
+.priceBlock {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+}
+
+.priceLabel {
+    font-size: 0.66rem;
+    font-weight: 500;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--cw-fg-mute);
 }
 
 .price {
     font-family: var(--font-display);
-    font-size: clamp(1.8rem, 1.4rem + 1.4vw, 2.4rem);
+    font-size: clamp(2rem, 1.6rem + 1.4vw, 2.6rem);
     letter-spacing: 0.01em;
     color: var(--cw-fg);
+    line-height: 1;
 }
 
 .buttons {
@@ -309,60 +419,45 @@
 
 /* === Responsive === */
 @media (max-width: 1080px) {
-    .stage {
-        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    .grid {
+        grid-template-columns: minmax(0, 1fr);
+        gap: var(--space-5);
     }
 
-    .indexNum {
-        position: absolute;
-        top: clamp(80px, 12vh, 140px);
-        left: var(--container-px);
-        font-size: clamp(6rem, 14vw, 10rem);
-        z-index: -1;
-    }
-}
-
-@media (max-width: 880px) {
-    .section {
-        min-height: auto;
-        padding: clamp(64px, 10vh, 96px) var(--container-px);
-    }
-
-    .stage {
-        grid-template-columns: 1fr;
-        gap: var(--space-7);
-    }
-
-    .indexNum {
+    .mediaCol {
         position: static;
-        font-size: clamp(5rem, 22vw, 9rem);
-        align-self: flex-start;
-        padding-top: 0;
+        height: auto;
+        min-height: 0;
+    }
+
+    .mediaInner {
+        grid-template-rows: auto auto auto;
     }
 
     .media {
-        max-width: 480px;
+        aspect-ratio: 4 / 5;
+        height: auto;
+        max-width: 560px;
         margin: 0 auto;
-        aspect-ratio: 3 / 4;
+        width: 100%;
     }
 
-    .info {
-        max-width: 100%;
+    .step {
+        min-height: auto;
+        padding: var(--space-6) 0;
     }
 
-    .details {
-        grid-template-columns: 1fr;
+    .step:last-child {
+        min-height: auto;
     }
 
-    .watermark {
-        width: 140vw;
-        bottom: -4%;
-        right: -20%;
+    .infoCol {
+        padding: var(--space-5) 0 0;
     }
 }
 
 @media (max-width: 540px) {
-    .actions {
+    .buyRow {
         flex-direction: column;
         align-items: stretch;
     }
@@ -377,7 +472,11 @@
         justify-content: center;
     }
 
-    .meta {
+    .details {
+        grid-template-columns: 1fr;
+    }
+
+    .mediaMeta {
         font-size: 0.65rem;
     }
 }
