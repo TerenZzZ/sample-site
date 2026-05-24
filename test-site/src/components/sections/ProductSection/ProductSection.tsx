@@ -4,20 +4,12 @@ import styles from "./ProductSection.module.css";
 
 export type Colorway = "nero" | "celeste" | "panna";
 
-export type Pillar = {
-    index: string;
-    title: string;
-    body: string;
-};
-
 export type ProductSectionProps = {
     colorway: Colorway;
-    index: string;
     position: number;
     total: number;
     name: string;
     description: string;
-    pillars: Pillar[];
     details: string[];
     price: string;
     mediaSrc: string;
@@ -30,20 +22,18 @@ const colorwayClass: Record<Colorway, string> = {
     panna: styles.panna,
 };
 
-const navTheme: Record<Colorway, "light" | "dark"> = {
+const navTheme: Record<Colorway, "light" | "dark" | "medium"> = {
     nero: "dark",
-    celeste: "dark",
+    celeste: "medium",
     panna: "light",
 };
 
 export function ProductSection({
                                    colorway,
-                                   index,
                                    position,
                                    total,
                                    name,
                                    description,
-                                   pillars,
                                    details,
                                    price,
                                    mediaSrc,

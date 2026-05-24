@@ -3,7 +3,7 @@ import { IconButton } from "../../ui/IconButton";
 import logoBloynkay from "../../../assets/images/brand/bloynkay-logo.png";
 import styles from "./Navbar.module.css";
 
-type Theme = "light" | "dark";
+type Theme = "light" | "dark" | "medium";
 
 const NAV_LINKS = [
     { label: "Drop", href: "#drops", target: "drops" },
@@ -40,7 +40,9 @@ function useNavbarBehavior() {
 
                 if (visible) {
                     const t = visible.target.getAttribute("data-nav-theme");
-                    if (t === "light" || t === "dark") setTheme(t);
+                    if (t === "light" || t === "dark" || t === "medium") {
+                        requestAnimationFrame(() => setTheme(t));
+                    }
 
                     const id = visible.target.id;
                     if (id) {
@@ -52,7 +54,7 @@ function useNavbarBehavior() {
                     }
                 }
             },
-            { rootMargin: "-72px 0px -70% 0px", threshold: [0, 0.15, 0.5] }
+            { rootMargin: "-72px 0px -60% 0px", threshold: [0, 0.2, 0.5] }
         );
 
         sections.forEach((s) => obs.observe(s));
@@ -64,7 +66,10 @@ function useNavbarBehavior() {
 
 export function Navbar() {
     const { theme, scrolled, activeId } = useNavbarBehavior();
-    const themeClass = theme === "dark" ? styles.dark : styles.light;
+    const themeClass =
+        theme === "dark" ? styles.dark :
+        theme === "medium" ? styles.medium :
+        styles.light;
 
     const onLinkClick =
         (target: string) => (e: MouseEvent<HTMLAnchorElement>) => {
