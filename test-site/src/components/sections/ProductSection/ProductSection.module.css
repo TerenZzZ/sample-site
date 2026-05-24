@@ -1,6 +1,7 @@
 .section {
     position: relative;
     min-height: 100vh;
+    min-height: 100dvh;
     padding: clamp(64px, 8vh, 96px) var(--container-px);
     color: var(--cw-fg);
     overflow: hidden;
@@ -377,47 +378,184 @@
 
 /* === Responsive === */
 @media (max-width: 1080px) {
+    .section {
+        padding: clamp(80px, 10vh, 120px) var(--container-px) clamp(40px, 6vh, 60px);
+    }
+
     .grid {
         grid-template-columns: minmax(0, 1fr);
-        gap: var(--space-5);
+        gap: var(--space-6);
     }
 
     .mediaCol {
         position: static;
     }
 
+    .mediaInner {
+        gap: var(--space-3);
+    }
+
     .media {
         aspect-ratio: 1 / 1;
-        max-width: 400px;
-        width: 90%;
+        max-width: 460px;
+        width: 85%;
+    }
+
+    .infoCol {
+        gap: var(--space-5);
+    }
+
+    .watermark {
+        width: min(85vw, 1000px);
     }
 }
 
-@media (max-width: 540px) {
-    .buyRow {
-        flex-direction: column;
-        align-items: stretch;
+@media (max-width: 768px) {
+    .section {
+        min-height: auto;
+        padding: clamp(100px, 12vh, 140px) var(--container-px) clamp(60px, 8vh, 80px);
     }
 
-    .buttons {
-        justify-content: space-between;
+    .grid {
+        gap: var(--space-5);
     }
 
-    .cta,
-    .ctaGhost {
-        flex: 1;
-        justify-content: center;
+    .media {
+        max-width: 400px;
+        width: 90%;
+    }
+
+    .title {
+        font-size: clamp(2.5rem, 8vw, 4rem);
+    }
+
+    .lead {
+        font-size: clamp(0.95rem, 1rem + 0.2vw, 1.05rem);
     }
 
     .details {
         grid-template-columns: 1fr;
+        gap: var(--space-2);
+    }
+
+    .watermark {
+        width: min(95vw, 800px);
+        opacity: 0.7;
+    }
+
+    .panna .watermark {
+        opacity: 0.02;
+    }
+
+    .nero .watermark,
+    .celeste .watermark {
+        opacity: 0.03;
+    }
+}
+
+@media (max-width: 540px) {
+    .section {
+        padding: clamp(90px, 10vh, 100px) var(--container-px) clamp(50px, 6vh, 60px);
+    }
+
+    .grid {
+        gap: var(--space-4);
+    }
+
+    .media {
+        max-width: 340px;
+        width: 92%;
     }
 
     .mediaMeta {
         font-size: 0.65rem;
     }
+
+    .mediaName {
+        font-size: 0.72rem;
+    }
+
+    .title {
+        font-size: clamp(2.2rem, 10vw, 3rem);
+        line-height: 0.95;
+    }
+
+    .lead {
+        font-size: 0.95rem;
+        line-height: 1.55;
+    }
+
+    .stepLabel {
+        font-size: 0.65rem;
+    }
+
+    .infoCol {
+        gap: var(--space-4);
+    }
+
+    .buyRow {
+        flex-direction: column;
+        align-items: stretch;
+        gap: var(--space-4);
+    }
+
+    .buttons {
+        flex-direction: column;
+        gap: var(--space-3);
+    }
+
+    .cta,
+    .ctaGhost {
+        width: 100%;
+        justify-content: center;
+        padding: 16px 24px;
+    }
+
+    .price {
+        font-size: clamp(1.8rem, 8vw, 2.2rem);
+    }
+
+    .priceLabel {
+        font-size: 0.62rem;
+    }
+
+    .details {
+        gap: var(--space-2);
+        padding: var(--space-3) 0;
+    }
+
+    .detail {
+        font-size: 0.85rem;
+    }
+
+    .detailLabel {
+        font-size: 0.64rem;
+    }
 }
 
+/* === Touch devices optimization === */
+@media (hover: none) and (pointer: coarse) {
+    .media:hover .mediaEl {
+        transform: none;
+        filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.25))
+                drop-shadow(0 10px 20px rgba(0, 0, 0, 0.15));
+    }
+
+    .cta:hover,
+    .ctaGhost:hover {
+        transform: none;
+    }
+
+    .link:hover {
+        opacity: 0.72;
+    }
+
+    .link:hover::after {
+        width: 0;
+    }
+}
+
+/* === Reduced motion === */
 @media (prefers-reduced-motion: reduce) {
     .mediaEl,
     .arrow {
@@ -425,5 +563,32 @@
     }
     .media:hover .mediaEl {
         transform: none;
+    }
+}
+
+/* === Very small screens === */
+@media (max-width: 380px) {
+    .section {
+        padding: 80px 12px 40px;
+    }
+
+    .media {
+        max-width: 300px;
+        width: 95%;
+    }
+
+    .title {
+        font-size: 2rem;
+    }
+
+    .lead,
+    .detail {
+        font-size: 0.9rem;
+    }
+
+    .cta,
+    .ctaGhost {
+        padding: 14px 20px;
+        font-size: 0.72rem;
     }
 }
