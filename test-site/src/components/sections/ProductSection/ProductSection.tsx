@@ -106,18 +106,6 @@ export function ProductSection({
                         <p className={styles.lead}>{description}</p>
                     </Reveal>
 
-                    {pillars.map((p) => (
-                        <Reveal
-                            key={p.index}
-                            as="article"
-                            className={`${styles.step} ${styles.stepPillar}`}
-                        >
-                            <span className={styles.pillarIndex}>{p.index}</span>
-                            <h3 className={styles.pillarTitle}>{p.title}</h3>
-                            <p className={styles.pillarBody}>{p.body}</p>
-                        </Reveal>
-                    ))}
-
                     <Reveal as="article" className={`${styles.step} ${styles.stepBuy}`}>
                         <span className={styles.stepLabel}>
                             <span className={styles.stepRule} aria-hidden="true" />
