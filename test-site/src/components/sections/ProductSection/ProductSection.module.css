@@ -50,6 +50,11 @@
     z-index: -2;
     background:
             radial-gradient(
+                    circle at 50% 50%,
+                    transparent 20%,
+                    color-mix(in srgb, var(--cw-bg-deep) 30%, transparent) 70%
+            ),
+            radial-gradient(
                     120% 80% at 85% 0%,
                     var(--cw-bg-glow) 0%,
                     transparent 55%
@@ -86,13 +91,13 @@
 
 .panna .watermark {
     filter: brightness(0) invert(1);
-    opacity: 0.05;
+    opacity: 0.03;
 }
 
 .nero .watermark,
 .celeste .watermark {
     filter: brightness(0);
-    opacity: 0.06;
+    opacity: 0.04;
 }
 
 /* === Layout: sticky media + scrolling info === */
@@ -142,14 +147,10 @@
 .media {
     position: relative;
     margin: 0 auto;
-    width: 80%;
-    max-width: 500px;
+    width: 85%;
+    max-width: 550px;
     aspect-ratio: 1 / 1;
-    overflow: hidden;
-    border-radius: 2px;
-    box-shadow:
-            0 40px 80px -30px rgba(0, 0, 0, 0.5),
-            0 8px 24px -12px rgba(0, 0, 0, 0.3);
+    overflow: visible;
 }
 
 .mediaEl {
@@ -158,27 +159,15 @@
     object-fit: contain;
     object-position: center;
     display: block;
-    transition: transform 1200ms var(--ease-out);
+    filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.25))
+            drop-shadow(0 10px 20px rgba(0, 0, 0, 0.15));
+    transition: transform 800ms var(--ease-out), filter 800ms var(--ease-out);
 }
 
 .media:hover .mediaEl {
-    transform: scale(1.03);
-}
-
-.indexBadge {
-    position: absolute;
-    top: clamp(16px, 3vh, 28px);
-    left: clamp(16px, 2vw, 24px);
-    font-family: var(--font-display);
-    font-size: clamp(3rem, 6vw, 5rem);
-    line-height: 0.8;
-    color: transparent;
-    -webkit-text-stroke: 1.5px var(--cw-fg);
-    letter-spacing: -0.02em;
-    user-select: none;
-    pointer-events: none;
-    mix-blend-mode: difference;
-    opacity: 0.92;
+    transform: scale(1.05) translateY(-4px);
+    filter: drop-shadow(0 30px 60px rgba(0, 0, 0, 0.3))
+            drop-shadow(0 15px 30px rgba(0, 0, 0, 0.2));
 }
 
 .mediaName {

@@ -1,5 +1,4 @@
 import { Reveal } from "../../ui/Reveal";
-import { useLazyVideoPlay } from "../../../hooks/useLazyVideoPlay";
 import logoBloynkay from "../../../assets/images/brand/bloynkay-logo.png";
 import styles from "./ProductSection.module.css";
 
@@ -50,8 +49,6 @@ export function ProductSection({
                                    mediaSrc,
                                    mediaAlt,
                                }: ProductSectionProps) {
-    const videoRef = useLazyVideoPlay();
-
     return (
         <section
             id={`drop-01-${colorway}`}
@@ -78,18 +75,11 @@ export function ProductSection({
                         </header>
 
                         <figure className={styles.media}>
-                            <video
-                                ref={videoRef}
+                            <img
                                 src={mediaSrc}
+                                alt={mediaAlt}
                                 className={styles.mediaEl}
-                                loop
-                                muted
-                                playsInline
-                                preload="metadata"
                             />
-                            <span className={styles.indexBadge} aria-hidden="true">
-                                {index}
-                            </span>
                         </figure>
 
                         <span className={styles.mediaName}>{name}</span>

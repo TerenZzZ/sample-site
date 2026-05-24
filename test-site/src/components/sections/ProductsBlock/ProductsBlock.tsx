@@ -1,8 +1,8 @@
 import { ProductSection } from "../ProductSection";
 import type { Colorway, Pillar } from "../ProductSection";
-import cardiganNero from "../../../assets/videos/products/cardigan-nero.mp4";
-import cardiganPanna from "../../../assets/videos/products/cardigan-panna.mp4";
-import cardiganCeleste from "../../../assets/videos/products/cardigan-celeste.mp4";
+import cardiganNero from "../../../assets/images/products/fronte_nero_ombra.png";
+import cardiganPanna from "../../../assets/images/products/fronte_panna_ombra.png";
+import cardiganCeleste from "../../../assets/images/products/fronte_celeste_ombra.png";
 import styles from "./ProductsBlock.module.css";
 
 type ProductData = {
