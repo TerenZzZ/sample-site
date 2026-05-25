@@ -9,10 +9,10 @@
     align-items: center;
     padding: 0 var(--container-px);
     transition:
-            background-color 600ms var(--ease-out),
-            color 600ms var(--ease-out),
-            border-color 600ms var(--ease-out),
-            backdrop-filter 600ms var(--ease-out);
+            background-color 350ms var(--ease-out),
+            color 350ms var(--ease-out),
+            border-color 350ms var(--ease-out),
+            backdrop-filter 350ms var(--ease-out);
 }
 
 .inner {
@@ -77,7 +77,7 @@
     color: currentColor;
     transition:
             opacity var(--dur-base) var(--ease-out),
-            color 600ms var(--ease-out);
+            color 350ms var(--ease-out);
 }
 
 .link::after {
@@ -122,7 +122,7 @@
     user-select: none;
     -webkit-user-drag: none;
     transition:
-            filter 600ms var(--ease-out),
+            filter 350ms var(--ease-out),
             opacity var(--dur-base) var(--ease-out);
 }
 
@@ -153,7 +153,7 @@
 .iconBtn {
     border-color: currentColor;
     opacity: 0.85;
-    transition: opacity var(--dur-base) var(--ease-out), color 600ms var(--ease-out);
+    transition: opacity var(--dur-base) var(--ease-out), color 350ms var(--ease-out);
 }
 
 .iconBtn:hover {

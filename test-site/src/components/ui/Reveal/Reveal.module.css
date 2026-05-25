@@ -4,7 +4,6 @@
     transition:
             opacity var(--dur-slow) var(--ease-out),
             transform var(--dur-slow) var(--ease-out);
-    will-change: opacity, transform;
 }
 
 .visible {

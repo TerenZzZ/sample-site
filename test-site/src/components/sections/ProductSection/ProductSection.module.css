@@ -19,7 +19,7 @@
     --cw-accent: #7da4bf;
     --cw-bg-base: #efe6cf;
     --cw-bg-deep: #c9bda0;
-    --cw-bg-glow: rgba(255, 248, 230, 0.7);
+    --cw-bg-glow: rgba(255, 248, 230, 0.05);
 }
 
 .panna {
@@ -30,7 +30,7 @@
     --cw-accent: #d9c9a7;
     --cw-bg-base: #2a2a2c;
     --cw-bg-deep: #1a1a1c;
-    --cw-bg-glow: rgba(239, 230, 207, 0.12);
+    --cw-bg-glow: rgba(239, 230, 207, 0.04);
 }
 
 .celeste {
@@ -41,7 +41,7 @@
     --cw-accent: #2c3e50;
     --cw-bg-base: #999CA1;
     --cw-bg-deep: #7a7d82;
-    --cw-bg-glow: rgba(255, 255, 255, 0.12);
+    --cw-bg-glow: rgba(255, 255, 255, 0.04);
 }
 
 /* === Backdrop a layer === */
@@ -50,13 +50,14 @@
     inset: 0;
     z-index: -2;
     background:
+            linear-gradient(180deg, var(--cw-bg-deep) 0%, transparent 18%),
             radial-gradient(
                     circle at 50% 50%,
                     transparent 20%,
                     color-mix(in srgb, var(--cw-bg-deep) 30%, transparent) 70%
             ),
             radial-gradient(
-                    120% 80% at 85% 0%,
+                    120% 80% at 85% 20%,
                     var(--cw-bg-glow) 0%,
                     transparent 55%
             ),

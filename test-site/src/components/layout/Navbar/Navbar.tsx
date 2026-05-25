@@ -17,7 +17,7 @@ function useNavbarBehavior() {
     const [activeId, setActiveId] = useState<string>("top");
 
     useEffect(() => {
-        const onScroll = () => setScrolled(window.scrollY > 80);
+        const onScroll = () => setScrolled(window.scrollY > 140);
         onScroll();
         window.addEventListener("scroll", onScroll, { passive: true });
         return () => window.removeEventListener("scroll", onScroll);
@@ -28,23 +28,38 @@ function useNavbarBehavior() {
             document.querySelectorAll<HTMLElement>("[data-nav-theme]");
         if (sections.length === 0) return;
 
+        let currentTheme: Theme = "light";
+        let themeChangeTimeout: ReturnType<typeof setTimeout> | null = null;
+
         const obs = new IntersectionObserver(
             (entries) => {
-                const visible = entries
-                    .filter((e) => e.isIntersecting)
+                // Filtra sezioni che sono visibili con almeno il 25% della loro area
+                const visibleSections = entries
+                    .filter((e) => e.isIntersecting && e.intersectionRatio >= 0.25)
                     .sort(
                         (a, b) =>
                             Math.abs(a.boundingClientRect.top) -
                             Math.abs(b.boundingClientRect.top)
-                    )[0];
+                    );
 
-                if (visible) {
-                    const t = visible.target.getAttribute("data-nav-theme");
+                const mostVisible = visibleSections[0];
+
+                if (mostVisible) {
+                    const t = mostVisible.target.getAttribute("data-nav-theme");
                     if (t === "light" || t === "dark" || t === "medium") {
-                        requestAnimationFrame(() => setTheme(t));
+                        // Cambia tema solo se è diverso da quello corrente
+                        if (t !== currentTheme) {
+                            if (themeChangeTimeout) clearTimeout(themeChangeTimeout);
+
+                            // Debounce di 150ms per evitare cambi rapidi
+                            themeChangeTimeout = setTimeout(() => {
+                                currentTheme = t;
+                                requestAnimationFrame(() => setTheme(t));
+                            }, 150);
+                        }
                     }
 
-                    const id = visible.target.id;
+                    const id = mostVisible.target.id;
                     if (id) {
                         if (id.startsWith("drop-01")) {
                             setActiveId("drops");
@@ -54,11 +69,17 @@ function useNavbarBehavior() {
                     }
                 }
             },
-            { rootMargin: "-72px 0px -60% 0px", threshold: [0, 0.2, 0.5] }
+            {
+                rootMargin: "-140px 0px -35% 0px",
+                threshold: [0, 0.25, 0.5, 0.75]
+            }
         );
 
         sections.forEach((s) => obs.observe(s));
-        return () => obs.disconnect();
+        return () => {
+            obs.disconnect();
+            if (themeChangeTimeout) clearTimeout(themeChangeTimeout);
+        };
     }, []);
 
     return { theme, scrolled, activeId };
