@@ -1,6 +1,10 @@
 .waitlist {
     position: relative;
-    padding: clamp(96px, 14vh, 160px) var(--container-px);
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: flex;
+    align-items: center;
+    padding: clamp(64px, 8vh, 96px) var(--container-px);
     background:
             radial-gradient(
                     120% 80% at 0% 0%,
@@ -31,18 +35,19 @@
 }
 
 .inner {
-    max-width: 1080px;
+    max-width: 960px;
+    width: 100%;
     margin: 0 auto;
     display: flex;
     flex-direction: column;
-    gap: clamp(48px, 7vh, 80px);
+    gap: clamp(32px, 4vh, 48px);
 }
 
 .head {
     display: flex;
     flex-direction: column;
     gap: var(--space-4);
-    max-width: 820px;
+    max-width: 720px;
 }
 
 .kicker {
@@ -55,8 +60,8 @@
 
 .headline {
     font-family: var(--font-display);
-    font-size: clamp(2.6rem, 4vw + 1rem, 5.6rem);
-    line-height: 0.95;
+    font-size: clamp(2.4rem, 3.5vw + 1rem, 4.4rem);
+    line-height: 0.92;
     letter-spacing: -0.01em;
     margin: 0;
 }
@@ -67,21 +72,17 @@
 }
 
 .lead {
-    font-size: clamp(1rem, 0.95rem + 0.35vw, 1.18rem);
-    line-height: 1.6;
+    font-size: clamp(1rem, 0.95rem + 0.25vw, 1.15rem);
+    line-height: 1.55;
     color: var(--color-ink-soft);
     font-weight: 300;
-    max-width: 56ch;
+    max-width: 58ch;
     margin: 0;
 }
 
 .lead strong {
     color: var(--color-ink);
     font-weight: 500;
-}
-
-.countdownWrap {
-    width: 100%;
 }
 
 /* === Form === */
@@ -208,8 +209,6 @@
     font-family: var(--font-display);
     font-size: 1.4rem;
     color: var(--color-ink);
-    letter-spacing: 0;
-    text-transform: none;
 }
 
 .successBody {
@@ -230,43 +229,9 @@
     }
 }
 
-/* === Assurances strip === */
-.assurances {
-    border-top: 1px solid var(--color-line);
-    padding-top: clamp(32px, 5vh, 56px);
-}
-
-.assuranceList {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: var(--space-5);
-}
-
-.assurance {
-    display: flex;
-    align-items: baseline;
-    gap: var(--space-3);
-    font-size: 0.92rem;
-    color: var(--color-ink-soft);
-    line-height: 1.4;
-}
-
-.assuranceLabel {
-    font-family: var(--font-sans);
-    font-size: 0.68rem;
-    font-weight: 600;
-    letter-spacing: 0.24em;
-    color: var(--color-accent);
-    flex-shrink: 0;
-}
-
 @media (max-width: 880px) {
-    .assuranceList {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: var(--space-4);
+    .inner {
+        gap: clamp(24px, 3vh, 36px);
     }
 
     .formRow {
@@ -283,7 +248,19 @@
 }
 
 @media (max-width: 540px) {
-    .assuranceList {
-        grid-template-columns: 1fr;
+    .inner {
+        gap: var(--space-5);
+    }
+
+    .head {
+        gap: var(--space-3);
+    }
+
+    .headline {
+        font-size: clamp(2rem, 8vw, 3.2rem);
+    }
+
+    .lead {
+        font-size: 0.95rem;
     }
 }

@@ -35,7 +35,7 @@ export function Waitlist() {
                     </p>
                 </Reveal>
 
-                <Reveal delay={120} className={styles.countdownWrap}>
+                <Reveal delay={120}>
                     <Countdown target={LAUNCH_AT} label="Al lancio" />
                 </Reveal>
 
@@ -82,27 +82,6 @@ export function Waitlist() {
                             </div>
                         </div>
                     )}
-                </Reveal>
-
-                <Reveal delay={360} className={styles.assurances}>
-                    <ul className={styles.assuranceList}>
-                        <li className={styles.assurance}>
-                            <span className={styles.assuranceLabel}>01</span>
-                            <span>Produzione 100% Italia</span>
-                        </li>
-                        <li className={styles.assurance}>
-                            <span className={styles.assuranceLabel}>02</span>
-                            <span>Spedizione gratuita in UE</span>
-                        </li>
-                        <li className={styles.assurance}>
-                            <span className={styles.assuranceLabel}>03</span>
-                            <span>Reso esteso · 30 giorni</span>
-                        </li>
-                        <li className={styles.assurance}>
-                            <span className={styles.assuranceLabel}>04</span>
-                            <span>Pezzi numerati a mano</span>
-                        </li>
-                    </ul>
                 </Reveal>
             </div>
         </section>
