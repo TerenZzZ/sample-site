@@ -158,6 +158,7 @@
     max-width: 550px;
     aspect-ratio: 1 / 1;
     overflow: visible;
+    cursor: pointer;
 }
 
 .mediaEl {

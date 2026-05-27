@@ -1,0 +1,263 @@
+.overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.nero {
+    background: rgba(26, 26, 26, 0.75);
+}
+
+.celeste {
+    background: rgba(26, 31, 40, 0.75);
+}
+
+.panna {
+    background: rgba(42, 42, 44, 0.75);
+}
+
+.modal {
+    position: relative;
+    width: 600px;
+    max-width: 90vw;
+    background: white;
+    border-radius: 16px;
+    padding: 40px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+    animation: scaleIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.nero .modal {
+    background: #efe6cf;
+}
+
+.celeste .modal {
+    background: #e8e9eb;
+}
+
+.panna .modal {
+    background: #f5f5f5;
+}
+
+@keyframes scaleIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.imageContainer {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 400px;
+}
+
+.image {
+    max-width: 100%;
+    max-height: 500px;
+    height: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 10px 25px rgba(0, 0, 0, 0.15));
+    transition: opacity 0.3s ease;
+}
+
+.closeBtn {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 36px;
+    height: 36px;
+    border: none;
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 50%;
+    font-size: 1.5rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s ease, transform 0.2s ease;
+    z-index: 10;
+}
+
+.nero .closeBtn {
+    color: #1a1a1a;
+}
+
+.celeste .closeBtn {
+    color: #1a1f28;
+}
+
+.panna .closeBtn {
+    color: #2a2a2c;
+}
+
+.closeBtn:hover {
+    background: rgba(0, 0, 0, 0.2);
+    transform: scale(1.05);
+}
+
+.navBtn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 40px;
+    height: 40px;
+    border: none;
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 50%;
+    font-size: 1.8rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s ease, transform 0.2s ease;
+    z-index: 10;
+}
+
+.nero .navBtn,
+.celeste .navBtn,
+.panna .navBtn {
+    color: #1a1a1a;
+}
+
+.navBtn:hover {
+    background: rgba(0, 0, 0, 0.2);
+    transform: translateY(-50%) scale(1.05);
+}
+
+.prevBtn {
+    left: -50px;
+}
+
+.nextBtn {
+    right: -50px;
+}
+
+.indicators {
+    margin-top: 20px;
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+.indicator {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(0, 0, 0, 0.25);
+    cursor: pointer;
+    padding: 0;
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.indicator.active {
+    transform: scale(1.4);
+    background: rgba(0, 0, 0, 0.6);
+}
+
+.indicator:hover {
+    transform: scale(1.2);
+}
+
+@media (max-width: 900px) {
+    .modal {
+        width: 90vw;
+        max-width: 500px;
+        padding: 32px;
+    }
+
+    .imageContainer {
+        min-height: 350px;
+    }
+
+    .image {
+        max-height: 400px;
+    }
+
+    .prevBtn {
+        left: 10px;
+    }
+
+    .nextBtn {
+        right: 10px;
+    }
+
+    .indicators {
+        margin-top: 16px;
+        gap: 8px;
+    }
+
+    .indicator {
+        width: 7px;
+        height: 7px;
+    }
+}
+
+@media (max-width: 540px) {
+    .modal {
+        width: 100%;
+        max-width: calc(100vw - 40px);
+        padding: 24px;
+        border-radius: 12px;
+    }
+
+    .imageContainer {
+        min-height: 300px;
+    }
+
+    .image {
+        max-height: 350px;
+    }
+
+    .closeBtn {
+        top: 8px;
+        right: 8px;
+        width: 32px;
+        height: 32px;
+        font-size: 1.3rem;
+    }
+
+    .navBtn {
+        width: 36px;
+        height: 36px;
+        font-size: 1.6rem;
+    }
+
+    .prevBtn {
+        left: 10px;
+    }
+
+    .nextBtn {
+        right: 10px;
+    }
+
+    .indicators {
+        margin-top: 14px;
+        gap: 6px;
+    }
+
+    .indicator {
+        width: 6px;
+        height: 6px;
+    }
+}

@@ -1,5 +1,8 @@
+import { useState } from "react";
 import { Reveal } from "../../ui/Reveal";
+import { ProductImageModal } from "../../ui/ProductImageModal";
 import logoBloynkay from "../../../assets/images/brand/bloynkay-logo.png";
+import { modalImagesConfig } from "./modalImages";
 import styles from "./ProductSection.module.css";
 
 export type Colorway = "nero" | "celeste" | "panna";
@@ -39,7 +42,16 @@ export function ProductSection({
                                    mediaSrc,
                                    mediaAlt,
                                }: ProductSectionProps) {
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
     return (
+        <>
+            <ProductImageModal
+                isOpen={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+                images={modalImagesConfig[colorway]}
+                colorway={colorway}
+            />
         <section
             id={`drop-01-${colorway}`}
             data-nav-theme={navTheme[colorway]}
@@ -64,7 +76,18 @@ export function ProductSection({
                             </span>
                         </header>
 
-                        <figure className={styles.media}>
+                        <figure
+                            className={styles.media}
+                            onClick={() => setIsModalOpen(true)}
+                            role="button"
+                            tabIndex={0}
+                            onKeyDown={(e) => {
+                                if (e.key === "Enter" || e.key === " ") {
+                                    e.preventDefault();
+                                    setIsModalOpen(true);
+                                }
+                            }}
+                        >
                             <img
                                 src={mediaSrc}
                                 alt={mediaAlt}
@@ -124,5 +147,6 @@ export function ProductSection({
                 </div>
             </div>
         </section>
+        </>
     );
 }
