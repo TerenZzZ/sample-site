@@ -65,7 +65,7 @@ export function Hero() {
                     </p>
 
                     <div className={styles.actions}>
-                        <Button onClick={() => scrollToId("drops")}>
+                        <Button onClick={() => scrollToId("drop-01-nero")}>
                             Scopri Drop 01
                         </Button>
                         <Button

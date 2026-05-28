@@ -6,9 +6,7 @@ import styles from "./Navbar.module.css";
 type Theme = "light" | "dark" | "medium";
 
 const NAV_LINKS = [
-    { label: "Drop", href: "#drops", target: "drops" },
-    { label: "Manifesto", href: "#manifesto", target: "manifesto" },
-    { label: "Lista d'attesa", href: "#waitlist", target: "waitlist" },
+    { label: "Drop", href: "#drop-01-nero", target: "drop-01-nero" },
 ];
 
 function useNavbarBehavior() {
@@ -61,8 +59,9 @@ function useNavbarBehavior() {
 
                     const id = mostVisible.target.id;
                     if (id) {
+                        // Attiva "drop-01-nero" per tutte le sezioni drop
                         if (id.startsWith("drop-01")) {
-                            setActiveId("drops");
+                            setActiveId("drop-01-nero");
                         } else {
                             setActiveId(id);
                         }

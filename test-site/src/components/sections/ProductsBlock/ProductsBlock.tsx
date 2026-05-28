@@ -65,7 +65,7 @@ const PRODUCTS: ProductData[] = [
 
 export function ProductsBlock() {
     return (
-        <div id="drops" className={styles.drops}>
+        <div className={styles.container}>
             {PRODUCTS.map((p, i) => (
                 <ProductSection
                     key={p.colorway}
