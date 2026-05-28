@@ -1,18 +1,38 @@
 import { type MouseEvent, useEffect, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { IconButton } from "../../ui/IconButton";
 import logoBloynkay from "../../../assets/images/brand/bloynkay-logo.png";
 import styles from "./Navbar.module.css";
 
 type Theme = "light" | "dark" | "medium";
 
-const NAV_LINKS = [
-    { label: "Drop", href: "#drop-01-nero", target: "drop-01-nero" },
+type NavLink = {
+    label: string;
+    href: string;
+    target?: string;
+    isRoute?: boolean;
+};
+
+const NAV_LINKS: NavLink[] = [
+    { label: "Drop", href: "#drop-01-nero", target: "drop-01-nero", isRoute: false },
+    { label: "Store", href: "/store", isRoute: true },
 ];
 
 function useNavbarBehavior() {
+    const location = useLocation();
     const [theme, setTheme] = useState<Theme>("light");
     const [scrolled, setScrolled] = useState(false);
     const [activeId, setActiveId] = useState<string>("top");
+
+    // Imposta tema basato sulla route
+    useEffect(() => {
+        if (location.pathname === "/store") {
+            setTheme("light");
+            setActiveId("store");
+        } else {
+            setActiveId("top");
+        }
+    }, [location.pathname]);
 
     useEffect(() => {
         const onScroll = () => setScrolled(window.scrollY > 140);
@@ -22,6 +42,9 @@ function useNavbarBehavior() {
     }, []);
 
     useEffect(() => {
+        // Solo sulla home page
+        if (location.pathname !== "/") return;
+
         const sections =
             document.querySelectorAll<HTMLElement>("[data-nav-theme]");
         if (sections.length === 0) return;
@@ -31,7 +54,6 @@ function useNavbarBehavior() {
 
         const obs = new IntersectionObserver(
             (entries) => {
-                // Filtra sezioni che sono visibili con almeno il 25% della loro area
                 const visibleSections = entries
                     .filter((e) => e.isIntersecting && e.intersectionRatio >= 0.25)
                     .sort(
@@ -45,11 +67,9 @@ function useNavbarBehavior() {
                 if (mostVisible) {
                     const t = mostVisible.target.getAttribute("data-nav-theme");
                     if (t === "light" || t === "dark" || t === "medium") {
-                        // Cambia tema solo se è diverso da quello corrente
                         if (t !== currentTheme) {
                             if (themeChangeTimeout) clearTimeout(themeChangeTimeout);
 
-                            // Debounce di 150ms per evitare cambi rapidi
                             themeChangeTimeout = setTimeout(() => {
                                 currentTheme = t;
                                 requestAnimationFrame(() => setTheme(t));
@@ -59,7 +79,6 @@ function useNavbarBehavior() {
 
                     const id = mostVisible.target.id;
                     if (id) {
-                        // Attiva "drop-01-nero" per tutte le sezioni drop
                         if (id.startsWith("drop-01")) {
                             setActiveId("drop-01-nero");
                         } else {
@@ -79,31 +98,51 @@ function useNavbarBehavior() {
             obs.disconnect();
             if (themeChangeTimeout) clearTimeout(themeChangeTimeout);
         };
-    }, []);
+    }, [location.pathname]);
 
     return { theme, scrolled, activeId };
 }
 
 export function Navbar() {
     const { theme, scrolled, activeId } = useNavbarBehavior();
+    const location = useLocation();
+    const navigate = useNavigate();
     const themeClass =
         theme === "dark" ? styles.dark :
         theme === "medium" ? styles.medium :
         styles.light;
 
-    const onLinkClick =
-        (target: string) => (e: MouseEvent<HTMLAnchorElement>) => {
-            const el = document.getElementById(target);
-            if (!el) return;
-            e.preventDefault();
+    const scrollToTop = () => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    };
+
+    const scrollToElement = (id: string) => {
+        const el = document.getElementById(id);
+        if (el) {
             el.scrollIntoView({ behavior: "smooth", block: "start" });
-            history.replaceState(null, "", `#${target}`);
-        };
+        }
+    };
 
     const onLogoClick = (e: MouseEvent<HTMLAnchorElement>) => {
         e.preventDefault();
-        window.scrollTo({ top: 0, behavior: "smooth" });
-        history.replaceState(null, "", "#top");
+        if (location.pathname === "/") {
+            scrollToTop();
+        } else {
+            navigate("/");
+            // Scroll dopo la navigazione
+            setTimeout(scrollToTop, 100);
+        }
+    };
+
+    const onDropClick = (e: MouseEvent<HTMLAnchorElement>) => {
+        e.preventDefault();
+        if (location.pathname === "/") {
+            scrollToElement("drop-01-nero");
+        } else {
+            navigate("/");
+            // Scroll dopo la navigazione
+            setTimeout(() => scrollToElement("drop-01-nero"), 100);
+        }
     };
 
     return (
@@ -120,22 +159,61 @@ export function Navbar() {
                 <nav aria-label="Primary" className={styles.left}>
                     <ul className={styles.list}>
                         {NAV_LINKS.map((link) => {
-                            const isActive = activeId === link.target;
+                            const isActive = link.isRoute
+                                ? location.pathname === link.href
+                                : activeId === link.target;
+
+                            // Link "Drop" con navigazione intelligente
+                            if (link.label === "Drop") {
+                                return (
+                                    <li key={link.href}>
+                                        <a
+                                            className={[
+                                                styles.link,
+                                                isActive ? styles.linkActive : "",
+                                            ]
+                                                .filter(Boolean)
+                                                .join(" ")}
+                                            href="/#drop-01-nero"
+                                            onClick={onDropClick}
+                                            aria-current={isActive ? "true" : undefined}
+                                        >
+                                            {link.label}
+                                        </a>
+                                    </li>
+                                );
+                            }
+
+                            // Altri link (Store, ecc.)
                             return (
                                 <li key={link.href}>
-                                    <a
-                                        className={[
-                                            styles.link,
-                                            isActive ? styles.linkActive : "",
-                                        ]
-                                            .filter(Boolean)
-                                            .join(" ")}
-                                        href={link.href}
-                                        onClick={onLinkClick(link.target)}
-                                        aria-current={isActive ? "true" : undefined}
-                                    >
-                                        {link.label}
-                                    </a>
+                                    {link.isRoute ? (
+                                        <Link
+                                            to={link.href}
+                                            className={[
+                                                styles.link,
+                                                isActive ? styles.linkActive : "",
+                                            ]
+                                                .filter(Boolean)
+                                                .join(" ")}
+                                            aria-current={isActive ? "page" : undefined}
+                                        >
+                                            {link.label}
+                                        </Link>
+                                    ) : (
+                                        <a
+                                            className={[
+                                                styles.link,
+                                                isActive ? styles.linkActive : "",
+                                            ]
+                                                .filter(Boolean)
+                                                .join(" ")}
+                                            href={link.href}
+                                            aria-current={isActive ? "true" : undefined}
+                                        >
+                                            {link.label}
+                                        </a>
+                                    )}
                                 </li>
                             );
                         })}
@@ -143,7 +221,7 @@ export function Navbar() {
                 </nav>
 
                 <a
-                    href="#top"
+                    href="/"
                     className={styles.logo}
                     aria-label="Bloynkay — home"
                     onClick={onLogoClick}

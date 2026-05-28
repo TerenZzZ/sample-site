@@ -1,22 +1,22 @@
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Navbar } from "./components/layout/Navbar";
-import { Hero } from "./components/sections/Hero";
-import { Manifesto } from "./components/sections/Manifesto";
-import { ProductsBlock } from "./components/sections/ProductsBlock";
-import { Waitlist } from "./components/sections/Waitlist";
 import { Footer } from "./components/sections/Footer";
+import { ScrollToTop } from "./components/utils";
+import { HomePage, StorePage } from "./pages";
 
 function App() {
     return (
-        <>
+        <BrowserRouter>
+            <ScrollToTop />
             <Navbar />
             <main>
-                <Hero />
-                <Manifesto />
-                <ProductsBlock />
-                <Waitlist />
+                <Routes>
+                    <Route path="/" element={<HomePage />} />
+                    <Route path="/store" element={<StorePage />} />
+                </Routes>
             </main>
             <Footer />
-        </>
+        </BrowserRouter>
     );
 }
 

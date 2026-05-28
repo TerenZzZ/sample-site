@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { Reveal } from "../../ui/Reveal";
 import logoBloynkay from "../../../assets/images/brand/bloynkay-logo.png";
 import styles from "./ProductSection.module.css";
@@ -64,13 +65,15 @@ export function ProductSection({
                             </span>
                         </header>
 
-                        <figure className={styles.media}>
-                            <img
-                                src={mediaSrc}
-                                alt={mediaAlt}
-                                className={styles.mediaEl}
-                            />
-                        </figure>
+                        <Link to="/store" className={styles.mediaLink}>
+                            <figure className={styles.media}>
+                                <img
+                                    src={mediaSrc}
+                                    alt={mediaAlt}
+                                    className={styles.mediaEl}
+                                />
+                            </figure>
+                        </Link>
 
                         <span className={styles.mediaName}>{name}</span>
                     </div>
