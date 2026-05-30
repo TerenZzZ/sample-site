@@ -1,0 +1,131 @@
+.card {
+    display: flex;
+    flex-direction: column;
+    background: rgba(230, 235, 240, 0.65);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-radius: 6px;
+    overflow: hidden;
+    cursor: pointer;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.imageWrapper {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    background: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    padding: 20px;
+}
+
+.image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+    filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.15));
+    mix-blend-mode: normal;
+}
+
+.content {
+    padding: 18px 20px 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    background: rgba(235, 240, 245, 0.5);
+}
+
+.name {
+    font-family: var(--font-sans);
+    font-size: 0.92rem;
+    font-weight: 500;
+    color: #0a0a0a;
+    margin: 0;
+    line-height: 1.35;
+    letter-spacing: 0.005em;
+}
+
+.description {
+    font-family: var(--font-sans);
+    font-size: 0.72rem;
+    font-weight: 400;
+    color: #5a5a5a;
+    margin: 0;
+    line-height: 1.4;
+}
+
+.price {
+    font-family: var(--font-sans);
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: #1a1a1a;
+    margin: 6px 0 10px 0;
+}
+
+.colors {
+    display: flex;
+    gap: 7px;
+    margin-bottom: 8px;
+}
+
+.colorButton {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    border: 1.5px solid rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    transition: transform 0.15s ease;
+    padding: 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.colorButton:hover {
+    transform: scale(1.12);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+}
+
+.sizes {
+    display: flex;
+    gap: 9px;
+    flex-wrap: wrap;
+}
+
+.size {
+    font-family: var(--font-sans);
+    font-size: 0.68rem;
+    font-weight: 400;
+    color: #5a5a5a;
+    letter-spacing: 0.02em;
+}
+
+@media (max-width: 768px) {
+    .content {
+        padding: 16px 18px 20px;
+    }
+
+    .name {
+        font-size: 0.88rem;
+    }
+
+    .price {
+        font-size: 0.84rem;
+    }
+
+    .imageWrapper {
+        padding: 16px;
+    }
+}
+
+@media (max-width: 640px) {
+    .content {
+        padding: 18px 20px 22px;
+    }
+
+    .imageWrapper {
+        padding: 20px;
+    }
+}

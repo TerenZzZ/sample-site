@@ -15,24 +15,16 @@ type NavLink = {
 
 const NAV_LINKS: NavLink[] = [
     { label: "Drop", href: "#drop-01-nero", target: "drop-01-nero", isRoute: false },
-    { label: "Store", href: "/store", isRoute: true },
+    { label: "Shop", href: "/shop", isRoute: true },
 ];
 
 function useNavbarBehavior() {
     const location = useLocation();
+    const isShopPage = location.pathname === "/shop";
+
     const [theme, setTheme] = useState<Theme>("light");
     const [scrolled, setScrolled] = useState(false);
-    const [activeId, setActiveId] = useState<string>("top");
-
-    // Imposta tema basato sulla route
-    useEffect(() => {
-        if (location.pathname === "/store") {
-            setTheme("light");
-            setActiveId("store");
-        } else {
-            setActiveId("top");
-        }
-    }, [location.pathname]);
+    const [activeId, setActiveId] = useState<string>(isShopPage ? "shop" : "top");
 
     useEffect(() => {
         const onScroll = () => setScrolled(window.scrollY > 140);
@@ -42,8 +34,21 @@ function useNavbarBehavior() {
     }, []);
 
     useEffect(() => {
-        // Solo sulla home page
-        if (location.pathname !== "/") return;
+        // Se siamo sulla pagina shop, impostiamo tema fisso e usciamo
+        if (isShopPage) {
+            // Usiamo queueMicrotask per evitare setState sincrono nell'effect
+            queueMicrotask(() => {
+                setTheme("light");
+                setActiveId("shop");
+            });
+            return;
+        }
+
+        // Altrimenti siamo sulla home: resettiamo e configuriamo l'IntersectionObserver
+        queueMicrotask(() => {
+            setTheme("light");
+            setActiveId("top");
+        });
 
         const sections =
             document.querySelectorAll<HTMLElement>("[data-nav-theme]");
@@ -98,7 +103,7 @@ function useNavbarBehavior() {
             obs.disconnect();
             if (themeChangeTimeout) clearTimeout(themeChangeTimeout);
         };
-    }, [location.pathname]);
+    }, [isShopPage]);
 
     return { theme, scrolled, activeId };
 }
@@ -184,7 +189,7 @@ export function Navbar() {
                                 );
                             }
 
-                            // Altri link (Store, ecc.)
+                            // Altri link (Shop, ecc.)
                             return (
                                 <li key={link.href}>
                                     {link.isRoute ? (
