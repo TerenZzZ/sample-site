@@ -43,20 +43,6 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
                 <p className={styles.description}>{product.description}</p>
                 <p className={styles.price}>€ {product.price.toFixed(2).replace('.', ',')}</p>
 
-                {product.colors.length > 0 && (
-                    <div className={styles.colors}>
-                        {product.colors.map((color) => (
-                            <button
-                                key={color.name}
-                                className={styles.colorButton}
-                                style={{ backgroundColor: color.hex }}
-                                aria-label={color.name}
-                                title={color.name}
-                            />
-                        ))}
-                    </div>
-                )}
-
                 {product.sizes.length > 0 && (
                     <div className={styles.sizes}>
                         {product.sizes.map((size) => (

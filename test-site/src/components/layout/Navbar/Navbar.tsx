@@ -22,7 +22,10 @@ function useNavbarBehavior() {
     const location = useLocation();
     const isShopPage = location.pathname === "/shop";
 
-    const [theme, setTheme] = useState<Theme>("light");
+    // Inizializza il tema corretto fin da subito per la shop page
+    const [theme, setTheme] = useState<Theme>(
+        isShopPage && window.scrollY <= 200 ? "dark" : "light"
+    );
     const [scrolled, setScrolled] = useState(false);
     const [activeId, setActiveId] = useState<string>(isShopPage ? "shop" : "top");
 
@@ -34,14 +37,25 @@ function useNavbarBehavior() {
     }, []);
 
     useEffect(() => {
-        // Se siamo sulla pagina shop, impostiamo tema fisso e usciamo
+        // Se siamo sulla pagina shop, gestiamo il tema in base allo scroll
         if (isShopPage) {
-            // Usiamo queueMicrotask per evitare setState sincrono nell'effect
             queueMicrotask(() => {
-                setTheme("light");
                 setActiveId("shop");
             });
-            return;
+
+            const updateShopTheme = () => {
+                const scrollY = window.scrollY;
+                // Cambia tema da dark a light in base allo scroll
+                if (scrollY > 200) {
+                    setTheme("light");
+                } else {
+                    setTheme("dark");
+                }
+            };
+
+            updateShopTheme();
+            window.addEventListener("scroll", updateShopTheme, { passive: true });
+            return () => window.removeEventListener("scroll", updateShopTheme);
         }
 
         // Altrimenti siamo sulla home: resettiamo e configuriamo l'IntersectionObserver
@@ -112,6 +126,7 @@ export function Navbar() {
     const { theme, scrolled, activeId } = useNavbarBehavior();
     const location = useLocation();
     const navigate = useNavigate();
+    const isShopPage = location.pathname === "/shop";
     const themeClass =
         theme === "dark" ? styles.dark :
         theme === "medium" ? styles.medium :
@@ -156,6 +171,7 @@ export function Navbar() {
                 styles.navbar,
                 themeClass,
                 scrolled ? styles.scrolled : "",
+                isShopPage ? styles.shopPage : "",
             ]
                 .filter(Boolean)
                 .join(" ")}

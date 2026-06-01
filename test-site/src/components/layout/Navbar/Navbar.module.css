@@ -54,6 +54,30 @@
     border-bottom: 1px solid rgba(42, 42, 44, 0.12);
 }
 
+/* Shop page — always transparent */
+.shopPage {
+    background: transparent !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    border-bottom: none !important;
+}
+
+.shopPage.scrolled {
+    background: transparent !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    border-bottom: none !important;
+}
+
+.shopPage.scrolled.light,
+.shopPage.scrolled.dark,
+.shopPage.scrolled.medium {
+    background: transparent !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    border-bottom: none !important;
+}
+
 .left {
     justify-self: start;
 }
