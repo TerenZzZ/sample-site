@@ -119,6 +119,16 @@
     align-items: start;
 }
 
+/* Inverte il layout solo per la sezione panna */
+.panna .mediaCol {
+    grid-column: 2;
+}
+
+.panna .infoCol {
+    grid-column: 1;
+    grid-row: 1;
+}
+
 .mediaCol {
     position: sticky;
     top: calc(var(--nav-height) + clamp(20px, 4vh, 40px));

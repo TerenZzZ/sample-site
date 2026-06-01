@@ -65,7 +65,7 @@ export function ProductSection({
                             </span>
                         </header>
 
-                        <Link to="/store" className={styles.mediaLink}>
+                        <Link to="/shop" className={styles.mediaLink}>
                             <figure className={styles.media}>
                                 <img
                                     src={mediaSrc}
